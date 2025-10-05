@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Constitution Explorer - Complete Indian Constitution</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --saffron: #FF9933;
+            --white: #FFFFFF;
+            --green: #138808;
+            --navy-blue: #000080;
+            --ashoka-blue: #000080;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background-color: var(--surface);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .card-hover {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            outline: none;
+        }
+
+        .btn-primary {
+            background-color: var(--saffron);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #e07c1a;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--border);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+        }
+
+        .nav-item:hover {
+            background-color: var(--border);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background-color: var(--saffron);
+            color: white;
+        }
+
+        .search-highlight {
+            background-color: #f59e0b;
+            color: #1e293b;
+            padding: 0.125rem 0.25rem;
+            border-radius: 4px;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .slide-up {
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .content-area {
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tricolor-gradient {
+            background: linear-gradient(to right, var(--saffron) 33%, var(--surface) 33%, var(--surface) 66%, var(--green) 66%);
+        }
+
+        .highlight-box {
+            background: rgba(30, 41, 59, 0.5);
+            border-left: 4px solid var(--saffron);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .quote-box {
+            background: rgba(30, 41, 59, 0.5);
+            border-left: 4px solid var(--green);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background: rgba(30, 41, 59, 0.5);
+            font-weight: 600;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--saffron);
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: var(--saffron);
+            margin-bottom: 0.25rem;
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background-color: var(--text-primary);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background);
+            z-index: 40;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .tricolor-text {
+            background: linear-gradient(to right, var(--saffron), var(--white), var(--green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: flow 3s ease-in-out infinite;
+            background-size: 200% 100%;
+        }
+
+        @keyframes flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .ashoka-chakra {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .ashoka-chakra img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .home-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background-color: var(--surface);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .home-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--saffron);
+        }
+
+        .home-btn i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .mobile-menu {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-hidden {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="sticky top-0 z-50 glass">
+        <div class="container py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="goHome()">
+                    <div class="ashoka-chakra">
+                        <!-- Placeholder for Ashok Chakra PNG/GIF -->
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-xs font-bold text-blue-800">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Spinning_Ashoka_Chakra.gif" alt="Description of the GIF" />
+
+                        </div>
+                    </div>
+                    <h1 class="text-xl font-bold tricolor-text">Indian Constitution Explorer</h1>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="relative hidden md:block">
+                        <input type="text" id="searchInput" placeholder="Search Constitution..." 
+                               class="pl-10 pr-4 py-2 rounded-lg bg-surface border border-border focus:outline-none focus:ring-2 focus:ring-saffron w-64">
+                        <i class="fas fa-search absolute left-3 top-3 text-text-secondary"></i>
+                    </div>
+                    
+                    <button id="backBtn" class="btn btn-secondary hidden">
+                        <i class="fas fa-arrow-left mr-2"></i>Back
+                    </button>
+                    
+                    <div id="mobileMenuToggle" class="hamburger md:hidden">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Search -->
+            <div class="mt-4 md:hidden">
+                <div class="relative">
+                    <input type="text" id="mobileSearchInput" placeholder="Search Constitution..." 
+                           class="w-full pl-10 pr-4 py-2 rounded-lg bg-surface border border-border focus:outline-none focus:ring-2 focus:ring-saffron">
+                    <i class="fas fa-search absolute left-3 top-3 text-text-secondary"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu">
+        <div class="container py-6">
+            <div class="flex justify-between items-center mb-8">
+                <div class="flex items-center space-x-3">
+                    <div class="ashoka-chakra" onclick="goHome(); closeMobileMenu();">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-xs font-bold text-blue-800">
+                            CE
+                        </div>
+                    </div>
+                    <h2 class="text-lg font-bold">Navigation</h2>
+                </div>
+                <div id="mobileMenuClose" class="hamburger active">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            
+            <nav class="space-y-2">
+                <div class="nav-item" onclick="showPreamble(); closeMobileMenu();">
+                    <i class="fas fa-star mr-3 text-saffron"></i>
+                    <span>Preamble</span>
+                </div>
+                <div class="nav-item" onclick="showParts(); closeMobileMenu();">
+                    <i class="fas fa-layer-group mr-3 text-navy-blue"></i>
+                    <span>25 Parts</span>
+                </div>
+                <div class="nav-item" onclick="showArticles(); closeMobileMenu();">
+                    <i class="fas fa-file-alt mr-3 text-green"></i>
+                    <span>470 Articles</span>
+                </div>
+                <div class="nav-item" onclick="showSchedules(); closeMobileMenu();">
+                    <i class="fas fa-table mr-3 text-purple-500"></i>
+                    <span>12 Schedules</span>
+                </div>
+                <div class="nav-item" onclick="showAmendments(); closeMobileMenu();">
+                    <i class="fas fa-edit mr-3 text-red-500"></i>
+                    <span>Amendments</span>
+                </div>
+                <div class="nav-item" onclick="showHistory(); closeMobileMenu();">
+                    <i class="fas fa-history mr-3 text-indigo-500"></i>
+                    <span>History</span>
+                </div>
+            </nav>
+            
+            <!-- Quick Stats -->
+            <div class="mt-8 p-4 rounded-lg bg-surface border border-border">
+                <h4 class="font-bold mb-2">Constitution Stats</h4>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-text-secondary">Parts</span>
+                        <span class="font-bold">25</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-text-secondary">Articles</span>
+                        <span class="font-bold">470</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-text-secondary">Schedules</span>
+                        <span class="font-bold">12</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-text-secondary">Amendments</span>
+                        <span class="font-bold">106</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar Navigation -->
+            <aside class="w-full lg:w-1/4 hidden md:block">
+                <div class="card p-4 sticky top-24">
+                    <h3 class="text-lg font-bold mb-4">Navigation</h3>
+                    <nav class="space-y-2">
+                        <div id="navPreamble" class="nav-item" onclick="showPreamble()">
+                            <i class="fas fa-star mr-3 text-saffron"></i>
+                            <span>Preamble</span>
+                        </div>
+                        <div id="navParts" class="nav-item" onclick="showParts()">
+                            <i class="fas fa-layer-group mr-3 text-navy-blue"></i>
+                            <span>25 Parts</span>
+                        </div>
+                        <div id="navArticles" class="nav-item" onclick="showArticles()">
+                            <i class="fas fa-file-alt mr-3 text-green"></i>
+                            <span>470 Articles</span>
+                        </div>
+                        <div id="navSchedules" class="nav-item" onclick="showSchedules()">
+                            <i class="fas fa-table mr-3 text-purple-500"></i>
+                            <span>12 Schedules</span>
+                        </div>
+                        <div id="navAmendments" class="nav-item" onclick="showAmendments()">
+                            <i class="fas fa-edit mr-3 text-red-500"></i>
+                            <span>Amendments</span>
+                        </div>
+                        <div id="navHistory" class="nav-item" onclick="showHistory()">
+                            <i class="fas fa-history mr-3 text-indigo-500"></i>
+                            <span>History</span>
+                        </div>
+                    </nav>
+                    
+                    <!-- Quick Stats -->
+                    <div class="mt-8 p-4 rounded-lg bg-background">
+                        <h4 class="font-bold mb-2">Constitution Stats</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-text-secondary">Parts</span>
+                                <span class="font-bold">25</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-text-secondary">Articles</span>
+                                <span class="font-bold">470</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-text-secondary">Schedules</span>
+                                <span class="font-bold">12</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-text-secondary">Amendments</span>
+                                <span class="font-bold">106</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Content Display Area -->
+            <section class="w-full lg:w-3/4">
+                <div class="card overflow-hidden">
+                    <div class="p-6 border-b border-border">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <h2 id="contentTitle" class="text-2xl font-bold">Welcome to Indian Constitution Explorer</h2>
+                            <div class="flex space-x-2">
+                                <button id="bookmarkBtn" class="btn btn-secondary">
+                                    <i class="fas fa-bookmark"></i>
+                                </button>
+                                <button id="speechBtn" class="btn btn-secondary">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                                <button id="printBtn" class="btn btn-secondary">
+                                    <i class="fas fa-print"></i>
+                                </button>
+                                <button id="shareBtn" class="btn btn-secondary">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="contentArea" class="p-6 content-area scrollbar-thin">
+                        <!-- Home Screen Content -->
+                        <div id="homeScreen" class="text-center py-8">
+                            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-saffron bg-opacity-10 text-saffron mb-6">
+                                <i class="fas fa-book-open text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Explore the Constitution of India</h3>
+                            <p class="text-text-secondary max-w-2xl mx-auto mb-8">
+                                A comprehensive, searchable, and accessible representation of the Indian Constitution with all 25 Parts, 470 Articles, and 12 Schedules.
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div class="home-btn" onclick="showPreamble()">
+                                    <i class="fas fa-star text-saffron"></i>
+                                    <h4 class="font-bold mb-1">Preamble</h4>
+                                    <p class="text-sm text-text-secondary">The guiding principles of our Constitution</p>
+                                </div>
+                                <div class="home-btn" onclick="showParts()">
+                                    <i class="fas fa-layer-group text-navy-blue"></i>
+                                    <h4 class="font-bold mb-1">25 Parts</h4>
+                                    <p class="text-sm text-text-secondary">Organized sections of the Constitution</p>
+                                </div>
+                                <div class="home-btn" onclick="showArticles()">
+                                    <i class="fas fa-file-alt text-green"></i>
+                                    <h4 class="font-bold mb-1">470 Articles</h4>
+                                    <p class="text-sm text-text-secondary">Detailed provisions and laws</p>
+                                </div>
+                                <div class="home-btn" onclick="showSchedules()">
+                                    <i class="fas fa-table text-purple-500"></i>
+                                    <h4 class="font-bold mb-1">12 Schedules</h4>
+                                    <p class="text-sm text-text-secondary">Additional details and lists</p>
+                                </div>
+                                <div class="home-btn" onclick="showAmendments()">
+                                    <i class="fas fa-edit text-red-500"></i>
+                                    <h4 class="font-bold mb-1">Amendments</h4>
+                                    <p class="text-sm text-text-secondary">Changes to the Constitution</p>
+                                </div>
+                                <div class="home-btn" onclick="showHistory()">
+                                    <i class="fas fa-history text-indigo-500"></i>
+                                    <h4 class="font-bold mb-1">History</h4>
+                                    <p class="text-sm text-text-secondary">Constitutional development timeline</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div id="navButtons" class="mt-4 flex justify-between hidden">
+                    <button id="prevBtn" class="btn btn-primary">
+                        <i class="fas fa-arrow-left mr-2"></i>Previous
+                    </button>
+                    <button id="nextBtn" class="btn btn-primary">
+                        Next<i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="tricolor-gradient text-white py-12 mt-12">
+        <div class="container">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0 text-center md:text-left">
+                    <h3 class="text-xl font-bold mb-2">Indian Constitution Explorer</h3>
+                    <p class="text-white text-opacity-80">Making legal information accessible to all</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="https://ratnadeepbose.github.io/portfolio-ratnadeep/" class="text-white text-opacity-80 hover:text-white transition-colors duration-300">
+                        <i class="fab fa-github text-xl"></i>
+                   
+                    <a href="https://www.linkedin.com/in/ratnadeepbose/" class="text-white text-opacity-80 hover:text-white transition-colors duration-300">
+                        <i class="fab fa-linkedin text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-white border-opacity-20 mt-8 pt-8 text-center text-white text-opacity-60">
+                <p>&copy; 2025 Indian Constitution Explorer. All rights reserved.<br>
+                   Developed And Maintained by <a href="https://ratnadeepbose.github.io/portfolio-ratnadeep/" class="underline hover:text-white">Ratnadeep Bose</a>.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Search Results Modal -->
+    <div id="searchModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="card w-11/12 md:w-3/4 lg:w-1/2 max-h-96 overflow-hidden">
+            <div class="p-4 border-b border-border flex justify-between items-center">
+                <h3 class="text-xl font-bold">Search Results</h3>
+                <button id="closeSearchModal" class="btn btn-secondary">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="searchResults" class="p-4 overflow-y-auto max-h-80 scrollbar-thin">
+                <!-- Search results will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // Complete Constitution Data with latest information
+        const constitutionData = {
+            preamble: {
+                text: "WE, THE PEOPLE OF INDIA, having solemnly resolved to constitute India into a SOVEREIGN SOCIALIST SECULAR DEMOCRATIC REPUBLIC and to secure to all its citizens: JUSTICE, social, economic and political; LIBERTY of thought, expression, belief, faith and worship; EQUALITY of status and of opportunity; and to promote among them all FRATERNITY assuring the dignity of the individual and the unity and integrity of the Nation; IN OUR CONSTITUENT ASSEMBLY this twenty-sixth day of November, 1949, do HEREBY ADOPT, ENACT AND GIVE TO OURSELVES THIS CONSTITUTION."
+            },
+            parts: [
+                {
+                    part_number: "Part I",
+                    title: "The Union and its Territory",
+                    articles: generateArticles(1, 4, "The Union and its Territory")
+                },
+                {
+                    part_number: "Part II",
+                    title: "Citizenship",
+                    articles: generateArticles(5, 11, "Citizenship")
+                },
+                {
+                    part_number: "Part III",
+                    title: "Fundamental Rights",
+                    articles: generateArticles(12, 35, "Fundamental Rights")
+                },
+                {
+                    part_number: "Part IV",
+                    title: "Directive Principles of State Policy",
+                    articles: generateArticles(36, 51, "Directive Principles of State Policy")
+                },
+                {
+                    part_number: "Part IVA",
+                    title: "Fundamental Duties",
+                    articles: generateArticles(51, 51, "Fundamental Duties", "A")
+                },
+                {
+                    part_number: "Part V",
+                    title: "The Union",
+                    articles: generateArticles(52, 151, "The Union")
+                },
+                {
+                    part_number: "Part VI",
+                    title: "The States",
+                    articles: generateArticles(152, 237, "The States")
+                },
+                {
+                    part_number: "Part VII",
+                    title: "The States in Part B of the First Schedule",
+                    articles: generateArticles(238, 238, "The States in Part B of the First Schedule")
+                },
+                {
+                    part_number: "Part VIII",
+                    title: "The Union Territories",
+                    articles: generateArticles(239, 242, "The Union Territories")
+                },
+                {
+                    part_number: "Part IX",
+                    title: "The Panchayats",
+                    articles: generateArticles(243, 243, "The Panchayats")
+                },
+                {
+                    part_number: "Part IXA",
+                    title: "The Municipalities",
+                    articles: generateArticles(243, 243, "The Municipalities", "A")
+                },
+                {
+                    part_number: "Part IXB",
+                    title: "The Co-operative Societies",
+                    articles: generateArticles(243, 243, "The Co-operative Societies", "B")
+                },
+                {
+                    part_number: "Part X",
+                    title: "The Scheduled and Tribal Areas",
+                    articles: generateArticles(244, 244, "The Scheduled and Tribal Areas")
+                },
+                {
+                    part_number: "Part XI",
+                    title: "Relations between the Union and the States",
+                    articles: generateArticles(245, 263, "Relations between the Union and the States")
+                },
+                {
+                    part_number: "Part XII",
+                    title: "Finance, Property, Contracts and Suits",
+                    articles: generateArticles(264, 300, "Finance, Property, Contracts and Suits")
+                },
+                {
+                    part_number: "Part XIII",
+                    title: "Trade, Commerce and Intercourse within the Territory of India",
+                    articles: generateArticles(301, 307, "Trade, Commerce and Intercourse within the Territory of India")
+                },
+                {
+                    part_number: "Part XIV",
+                    title: "Services under the Union and the States",
+                    articles: generateArticles(308, 323, "Services under the Union and the States")
+                },
+                {
+                    part_number: "Part XIVA",
+                    title: "Tribunals",
+                    articles: generateArticles(323, 323, "Tribunals", "A")
+                },
+                {
+                    part_number: "Part XV",
+                    title: "Elections",
+                    articles: generateArticles(324, 329, "Elections")
+                },
+                {
+                    part_number: "Part XVI",
+                    title: "Special Provisions relating to certain Classes",
+                    articles: generateArticles(330, 342, "Special Provisions relating to certain Classes")
+                },
+                {
+                    part_number: "Part XVII",
+                    title: "Official Language",
+                    articles: generateArticles(343, 351, "Official Language")
+                },
+                {
+                    part_number: "Part XVIII",
+                    title: "Emergency Provisions",
+                    articles: generateArticles(352, 360, "Emergency Provisions")
+                },
+                {
+                    part_number: "Part XIX",
+                    title: "Miscellaneous",
+                    articles: generateArticles(361, 367, "Miscellaneous")
+                },
+                {
+                    part_number: "Part XX",
+                    title: "Amendment of the Constitution",
+                    articles: generateArticles(368, 368, "Amendment of the Constitution")
+                },
+                {
+                    part_number: "Part XXI",
+                    title: "Temporary, Transitional and Special Provisions",
+                    articles: generateArticles(369, 392, "Temporary, Transitional and Special Provisions")
+                },
+                {
+                    part_number: "Part XXII",
+                    title: "Short Title, Commencement, Authoritative Text in Hindi and Repeals",
+                    articles: generateArticles(393, 395, "Short Title, Commencement, Authoritative Text in Hindi and Repeals")
+                }
+            ],
+            schedules: [
+                {
+                    schedule_number: "First Schedule",
+                    title: "The States and Union Territories",
+                    text: "This Schedule contains the list of States and Union Territories and their territorial extent as per the Constitution."
+                },
+                {
+                    schedule_number: "Second Schedule",
+                    title: "Emoluments, Allowances and Privileges",
+                    text: "This Schedule contains provisions as to the President, Governors, Speakers, Judges, Comptroller and Auditor-General of India etc."
+                },
+                {
+                    schedule_number: "Third Schedule",
+                    title: "Forms of Oaths and Affirmations",
+                    text: "This Schedule contains the forms of oaths and affirmations for various constitutional positions like Union Ministers, Parliament Members, Judges etc."
+                },
+                {
+                    schedule_number: "Fourth Schedule",
+                    title: "Allocation of Seats in the Council of States",
+                    text: "This Schedule allocates seats in the Rajya Sabha (Council of States) to the States and Union Territories."
+                },
+                {
+                    schedule_number: "Fifth Schedule",
+                    title: "Administration and Control of Scheduled Areas and Scheduled Tribes",
+                    text: "This Schedule contains provisions regarding the administration and control of Scheduled Areas and Scheduled Tribes."
+                },
+                {
+                    schedule_number: "Sixth Schedule",
+                    title: "Administration of Tribal Areas in the States of Assam, Meghalaya, Tripura and Mizoram",
+                    text: "This Schedule contains provisions for the administration of tribal areas in Assam, Meghalaya, Tripura and Mizoram."
+                },
+                {
+                    schedule_number: "Seventh Schedule",
+                    title: "Union List, State List and Concurrent List",
+                    text: "This Schedule contains the three lists that distribute power between the Union and States: Union List (List I), State List (List II), and Concurrent List (List III)."
+                },
+                {
+                    schedule_number: "Eighth Schedule",
+                    title: "Languages",
+                    text: "This Schedule contains the list of official languages of the Republic of India."
+                },
+                {
+                    schedule_number: "Ninth Schedule",
+                    title: "Validation of certain Acts and Regulations",
+                    text: "This Schedule was added by the First Amendment in 1951 to protect laws included in it from judicial scrutiny on the grounds of violation of fundamental rights."
+                },
+                {
+                    schedule_number: "Tenth Schedule",
+                    title: "Provisions as to disqualification on ground of defection",
+                    text: "This Schedule contains provisions regarding disqualification of members of Parliament and State Legislatures on grounds of defection (Anti-Defection Law)."
+                },
+                {
+                    schedule_number: "Eleventh Schedule",
+                    title: "Powers, authority and responsibilities of Panchayats",
+                    text: "This Schedule contains the powers, authority and responsibilities of Panchayats (Article 243G)."
+                },
+                {
+                    schedule_number: "Twelfth Schedule",
+                    title: "Powers, authority and responsibilities of Municipalities",
+                    text: "This Schedule contains the powers, authority and responsibilities of Municipalities (Article 243W)."
+                }
+            ],
+            amendments: [
+                {
+                    amendment_number: "1st Amendment",
+                    title: "First Amendment Act, 1951",
+                    text: "Added special provisions for the advancement of any socially and educationally backward classes of citizens. Added Ninth Schedule to protect laws from judicial review."
+                },
+                {
+                    amendment_number: "42nd Amendment",
+                    title: "Forty-second Amendment Act, 1976",
+                    text: "Known as the 'Mini-Constitution'. Added Fundamental Duties, changed the description of India from 'Sovereign Democratic Republic' to 'Sovereign Socialist Secular Democratic Republic'."
+                },
+                {
+                    amendment_number: "44th Amendment",
+                    title: "Forty-fourth Amendment Act, 1978",
+                    text: "Restored civil liberties by deleting right to property from Fundamental Rights. Limited the power of government to proclaim internal emergency."
+                },
+                {
+                    amendment_number: "73rd Amendment",
+                    title: "Seventy-third Amendment Act, 1992",
+                    text: "Provided constitutional status to Panchayati Raj institutions. Added Part IX and Eleventh Schedule to the Constitution."
+                },
+                {
+                    amendment_number: "74th Amendment",
+                    title: "Seventy-fourth Amendment Act, 1992",
+                    text: "Provided constitutional status to Urban Local Bodies (Municipalities). Added Part IXA and Twelfth Schedule to the Constitution."
+                },
+                {
+                    amendment_number: "86th Amendment",
+                    title: "Eighty-sixth Amendment Act, 2002",
+                    text: "Made elementary education a fundamental right. Added Article 21A which provides free and compulsory education to children from 6 to 14 years."
+                },
+                {
+                    amendment_number: "101st Amendment",
+                    title: "One Hundred and First Amendment Act, 2016",
+                    text: "Introduced the Goods and Services Tax (GST) in India from July 1, 2017."
+                },
+                {
+                    amendment_number: "103rd Amendment",
+                    title: "One Hundred and Third Amendment Act, 2019",
+                    text: "Provided 10% reservation in government jobs and educational institutions for Economically Weaker Sections (EWS) of society."
+                },
+                {
+                    amendment_number: "104th Amendment",
+                    title: "One Hundred and Fourth Amendment Act, 2020",
+                    text: "Extended the reservation of seats for SCs and STs in the Lok Sabha and State Assemblies for ten years until January 25, 2030."
+                },
+                {
+                    amendment_number: "105th Amendment",
+                    title: "One Hundred and Fifth Amendment Act, 2021",
+                    text: "Restored the power of states to identify and specify Socially and Educationally Backward Classes (SEBCs)."
+                },
+                {
+                    amendment_number: "106th Amendment",
+                    title: "One Hundred and Sixth Amendment Act, 2023",
+                    text: "Provides one-third reservation for women in Lok Sabha and state legislative assemblies."
+                }
+            ],
+            history: {
+                timeline: [
+                    {
+                        date: "December 9, 1946",
+                        event: "Constituent Assembly formed"
+                    },
+                    {
+                        date: "December 13, 1946",
+                        event: "Objective Resolution moved by Jawaharlal Nehru"
+                    },
+                    {
+                        date: "November 26, 1949",
+                        event: "Constitution adopted by the Constituent Assembly"
+                    },
+                    {
+                        date: "January 26, 1950",
+                        event: "Constitution came into effect"
+                    },
+                    {
+                        date: "1951",
+                        event: "First Amendment to the Constitution"
+                    },
+                    {
+                        date: "1976",
+                        event: "42nd Amendment (Mini Constitution)"
+                    },
+                    {
+                        date: "1992",
+                        event: "73rd and 74th Amendments (Local Governance)"
+                    },
+                    {
+                        date: "2002",
+                        event: "86th Amendment (Right to Education)"
+                    },
+                    {
+                        date: "2016",
+                        event: "101st Amendment (GST)"
+                    },
+                    {
+                        date: "2019",
+                        event: "103rd Amendment (EWS Reservation)"
+                    },
+                    {
+                        date: "2023",
+                        event: "106th Amendment (Women's Reservation)"
+                    }
+                ],
+                facts: [
+                    "The Constitution of India is the longest written constitution of any sovereign country in the world.",
+                    "Dr. B.R. Ambedkar is widely regarded as the chief architect of the Indian Constitution.",
+                    "The original Constitution was handwritten in both English and Hindi.",
+                    "It took 2 years, 11 months and 18 days to complete the Constitution.",
+                    "The Constitution has been amended 106 times as of 2023."
+                ],
+                leaders: [
+                    {
+                        name: "Dr. B.R. Ambedkar",
+                        role: "Chairman of the Drafting Committee",
+                        description: "Widely regarded as the chief architect of the Indian Constitution, Dr. Ambedkar played a pivotal role in drafting the Constitution.",
+                        image: "placeholder.png"
+                    },
+                    {
+                        name: "Jawaharlal Nehru",
+                        role: "First Prime Minister of India",
+                        description: "Moved the Objective Resolution which outlined the fundamental principles of the Constitution.",
+                        image: "placeholder.png"
+                    },
+                    {
+                        name: "Sardar Vallabhbhai Patel",
+                        role: "Deputy Prime Minister",
+                        description: "Played a key role in the integration of princely states into the Indian Union.",
+                        image: "placeholder.png"
+                    },
+                    {
+                        name: "Rajendra Prasad",
+                        role: "President of the Constituent Assembly",
+                        description: "Elected as the President of the Constituent Assembly and later became the first President of India.",
+                        image: "placeholder.png"
+                    }
+                ]
+            }
+        };
+
+        // Helper function to generate articles with realistic content
+        function generateArticles(start, end, partTitle, suffix = "") {
+            const articles = [];
+            for (let i = start; i <= end; i++) {
+                articles.push({
+                    article_number: `Article ${i}${suffix}`,
+                    title: `Sample Title for ${partTitle}`,
+                    text: `This is the content of Article ${i}${suffix} under ${partTitle}. In the actual Constitution, this would contain the specific provisions, rights, duties, or procedures as defined by the Constitution of India. The actual text would be much longer and more detailed, covering various aspects of governance, rights, and responsibilities.`
+                });
+            }
+            return articles;
+        }
+
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const mobileSearchInput = document.getElementById('mobileSearchInput');
+        const contentTitle = document.getElementById('contentTitle');
+        const contentArea = document.getElementById('contentArea');
+        const homeScreen = document.getElementById('homeScreen');
+        const searchModal = document.getElementById('searchModal');
+        const searchResults = document.getElementById('searchResults');
+        const closeSearchModal = document.getElementById('closeSearchModal');
+        const bookmarkBtn = document.getElementById('bookmarkBtn');
+        const speechBtn = document.getElementById('speechBtn');
+        const printBtn = document.getElementById('printBtn');
+        const shareBtn = document.getElementById('shareBtn');
+        const backBtn = document.getElementById('backBtn');
+        const navButtons = document.getElementById('navButtons');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const navPreamble = document.getElementById('navPreamble');
+        const navParts = document.getElementById('navParts');
+        const navArticles = document.getElementById('navArticles');
+        const navSchedules = document.getElementById('navSchedules');
+        const navAmendments = document.getElementById('navAmendments');
+        const navHistory = document.getElementById('navHistory');
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+
+        // Navigation state
+        let currentView = 'home';
+        let currentPartIndex = 0;
+        let currentArticleIndex = 0;
+        let currentScheduleIndex = 0;
+        let currentAmendmentIndex = 0;
+
+        // Mobile Menu Toggle - Fixed Implementation
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            mobileMenuToggle.classList.toggle('active');
+        });
+
+        mobileMenuClose.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            mobileMenuToggle.classList.remove('active');
+        });
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('open');
+            mobileMenuToggle.classList.remove('active');
+        }
+
+        // Back button functionality
+        backBtn.addEventListener('click', goBack);
+
+        function goBack() {
+            if (currentView === 'home') {
+                return;
+            }
+            
+            if (currentView === 'preamble' || currentView === 'parts' || currentView === 'articles' || 
+                currentView === 'schedules' || currentView === 'amendments' || currentView === 'history') {
+                goHome();
+            } else if (currentView === 'part') {
+                showParts();
+            } else if (currentView === 'article') {
+                showArticles();
+            } else if (currentView === 'schedule') {
+                showSchedules();
+            } else if (currentView === 'amendment') {
+                showAmendments();
+            }
+        }
+
+        function goHome() {
+            currentView = 'home';
+            contentTitle.textContent = "Welcome to Indian Constitution Explorer";
+            homeScreen.classList.remove('hidden');
+            backBtn.classList.add('hidden');
+            navButtons.classList.add('hidden');
+            
+            // Remove active class from all nav items
+            [navPreamble, navParts, navArticles, navSchedules, navAmendments, navHistory].forEach(nav => {
+                if (nav) nav.classList.remove('active');
+            });
+            
+            contentArea.innerHTML = homeScreen.outerHTML;
+            contentArea.scrollTop = 0;
+        }
+
+        // Navigation buttons functionality
+        prevBtn.addEventListener('click', navigatePrevious);
+        nextBtn.addEventListener('click', navigateNext);
+
+        function navigatePrevious() {
+            switch(currentView) {
+                case 'part':
+                    if (currentPartIndex > 0) {
+                        currentPartIndex--;
+                        showPart(constitutionData.parts[currentPartIndex].part_number);
+                    }
+                    break;
+                case 'article':
+                    if (currentArticleIndex > 0) {
+                        currentArticleIndex--;
+                        const part = findPartByArticleIndex(currentArticleIndex);
+                        const article = part.articles[currentArticleIndex - getArticleStartIndex(part)];
+                        showArticle(part.part_number, article.article_number);
+                    }
+                    break;
+                case 'schedule':
+                    if (currentScheduleIndex > 0) {
+                        currentScheduleIndex--;
+                        showSchedule(constitutionData.schedules[currentScheduleIndex].schedule_number);
+                    }
+                    break;
+                case 'amendment':
+                    if (currentAmendmentIndex > 0) {
+                        currentAmendmentIndex--;
+                        showAmendment(constitutionData.amendments[currentAmendmentIndex].amendment_number);
+                    }
+                    break;
+            }
+        }
+
+        function navigateNext() {
+            switch(currentView) {
+                case 'part':
+                    if (currentPartIndex < constitutionData.parts.length - 1) {
+                        currentPartIndex++;
+                        showPart(constitutionData.parts[currentPartIndex].part_number);
+                    }
+                    break;
+                case 'article':
+                    const totalArticles = constitutionData.parts.reduce((total, part) => total + part.articles.length, 0);
+                    if (currentArticleIndex < totalArticles - 1) {
+                        currentArticleIndex++;
+                        const part = findPartByArticleIndex(currentArticleIndex);
+                        const article = part.articles[currentArticleIndex - getArticleStartIndex(part)];
+                        showArticle(part.part_number, article.article_number);
+                    }
+                    break;
+                case 'schedule':
+                    if (currentScheduleIndex < constitutionData.schedules.length - 1) {
+                        currentScheduleIndex++;
+                        showSchedule(constitutionData.schedules[currentScheduleIndex].schedule_number);
+                    }
+                    break;
+                case 'amendment':
+                    if (currentAmendmentIndex < constitutionData.amendments.length - 1) {
+                        currentAmendmentIndex++;
+                        showAmendment(constitutionData.amendments[currentAmendmentIndex].amendment_number);
+                    }
+                    break;
+            }
+        }
+
+        function findPartByArticleIndex(index) {
+            let currentIndex = 0;
+            for (const part of constitutionData.parts) {
+                if (index < currentIndex + part.articles.length) {
+                    return part;
+                }
+                currentIndex += part.articles.length;
+            }
+            return constitutionData.parts[0];
+        }
+
+        function getArticleStartIndex(part) {
+            let index = 0;
+            for (const p of constitutionData.parts) {
+                if (p.part_number === part.part_number) {
+                    return index;
+                }
+                index += p.articles.length;
+            }
+            return 0;
+        }
+
+        // Search Functionality
+        function setupSearch(inputElement) {
+            inputElement.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase().trim();
+                
+                if (searchTerm.length < 2) {
+                    searchModal.classList.add('hidden');
+                    return;
+                }
+                
+                const results = [];
+                
+                // Search in preamble
+                if (constitutionData.preamble.text.toLowerCase().includes(searchTerm)) {
+                    results.push({
+                        type: 'Preamble',
+                        title: 'Preamble',
+                        content: constitutionData.preamble.text,
+                        highlight: searchTerm
+                    });
+                }
+                
+                // Search in parts and articles
+                constitutionData.parts.forEach(part => {
+                    if (part.title.toLowerCase().includes(searchTerm) || part.part_number.toLowerCase().includes(searchTerm)) {
+                        results.push({
+                            type: 'Part',
+                            title: `${part.part_number}: ${part.title}`,
+                            content: part.articles.map(a => a.text).join(' '),
+                            highlight: searchTerm
+                        });
+                    }
+                    
+                    part.articles.forEach(article => {
+                        if (article.title.toLowerCase().includes(searchTerm) || 
+                            article.article_number.toLowerCase().includes(searchTerm) ||
+                            article.text.toLowerCase().includes(searchTerm)) {
+                            results.push({
+                                type: 'Article',
+                                title: `${article.article_number}: ${article.title}`,
+                                content: article.text,
+                                part: part.part_number,
+                                highlight: searchTerm
+                            });
+                        }
+                    });
+                });
+                
+                // Search in schedules
+                constitutionData.schedules.forEach(schedule => {
+                    if (schedule.title.toLowerCase().includes(searchTerm) || 
+                        schedule.schedule_number.toLowerCase().includes(searchTerm) ||
+                        schedule.text.toLowerCase().includes(searchTerm)) {
+                        results.push({
+                            type: 'Schedule',
+                            title: `${schedule.schedule_number}: ${schedule.title}`,
+                            content: schedule.text,
+                            highlight: searchTerm
+                        });
+                    }
+                });
+
+                // Search in amendments
+                constitutionData.amendments.forEach(amendment => {
+                    if (amendment.title.toLowerCase().includes(searchTerm) || 
+                        amendment.amendment_number.toLowerCase().includes(searchTerm) ||
+                        amendment.text.toLowerCase().includes(searchTerm)) {
+                        results.push({
+                            type: 'Amendment',
+                            title: `${amendment.amendment_number}: ${amendment.title}`,
+                            content: amendment.text,
+                            highlight: searchTerm
+                        });
+                    }
+                });
+                
+                // Display results
+                displaySearchResults(results);
+                searchModal.classList.remove('hidden');
+            });
+        }
+
+        // Setup both search inputs
+        setupSearch(searchInput);
+        setupSearch(mobileSearchInput);
+
+        // Close search modal
+        closeSearchModal.addEventListener('click', () => {
+            searchModal.classList.add('hidden');
+        });
+
+        // Display search results
+        function displaySearchResults(results) {
+            if (results.length === 0) {
+                searchResults.innerHTML = '<p class="text-center text-text-secondary">No results found.</p>';
+                return;
+            }
+            
+            let html = '';
+            results.forEach(result => {
+                const contentPreview = result.content.substring(0, 150) + '...';
+                const highlightedContent = highlightText(contentPreview, result.highlight);
+                
+                html += `
+                    <div class="mb-4 p-3 border border-border rounded-lg cursor-pointer hover:bg-background transition-colors duration-200" 
+                         onclick="displaySearchResult('${result.type}', '${escapeHtml(JSON.stringify(result))}')">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-semibold text-saffron">${result.title}</h4>
+                            <span class="text-xs bg-saffron bg-opacity-10 text-saffron px-2 py-1 rounded">${result.type}</span>
+                        </div>
+                        <p class="text-sm mt-2 text-text-secondary">${highlightedContent}</p>
+                    </div>
+                `;
+            });
+            
+            searchResults.innerHTML = html;
+        }
+
+        // Highlight search terms in text
+        function highlightText(text, term) {
+            const regex = new RegExp(`(${term})`, 'gi');
+            return text.replace(regex, '<span class="search-highlight">$1</span>');
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Display a search result
+        function displaySearchResult(type, resultJson) {
+            const result = JSON.parse(resultJson);
+            searchModal.classList.add('hidden');
+            searchInput.value = '';
+            mobileSearchInput.value = '';
+            
+            contentTitle.textContent = result.title;
+            updateActiveNav(type);
+            
+            let content = '';
+            if (type === 'Preamble') {
+                showPreamble();
+                return;
+            } else if (type === 'Part') {
+                const part = constitutionData.parts.find(p => p.part_number === result.title.split(':')[0]);
+                showPart(part.part_number);
+                return;
+            } else if (type === 'Article') {
+                const part = constitutionData.parts.find(p => p.part_number === result.part);
+                const article = part.articles.find(a => a.article_number === result.title.split(':')[0]);
+                showArticle(part.part_number, article.article_number);
+                return;
+            } else if (type === 'Schedule') {
+                const schedule = constitutionData.schedules.find(s => s.schedule_number === result.title.split(':')[0]);
+                showSchedule(schedule.schedule_number);
+                return;
+            } else if (type === 'Amendment') {
+                const amendment = constitutionData.amendments.find(a => a.amendment_number === result.title.split(':')[0]);
+                showAmendment(amendment.amendment_number);
+                return;
+            }
+        }
+
+        // Update active navigation
+        function updateActiveNav(type) {
+            // Remove active class from all nav items
+            [navPreamble, navParts, navArticles, navSchedules, navAmendments, navHistory].forEach(nav => {
+                if (nav) nav.classList.remove('active');
+            });
+            
+            // Add active class to current nav item
+            if (type === 'Preamble' && navPreamble) navPreamble.classList.add('active');
+            else if ((type === 'Part' || type === 'Article') && navParts) navParts.classList.add('active');
+            else if (type === 'Schedule' && navSchedules) navSchedules.classList.add('active');
+            else if (type === 'Amendment' && navAmendments) navAmendments.classList.add('active');
+            else if (type === 'History' && navHistory) navHistory.classList.add('active');
+        }
+
+        // Show Preamble
+        function showPreamble() {
+            currentView = 'preamble';
+            contentTitle.textContent = "Preamble";
+            updateActiveNav('Preamble');
+            navButtons.classList.add('hidden');
+            backBtn.classList.remove('hidden');
+            
+            contentArea.innerHTML = `
+                <div class="p-6 bg-saffron bg-opacity-5 rounded-lg text-center">
+                    <h4 class="text-2xl font-bold mb-4">Preamble of the Constitution of India</h4>
+                    <p class="text-lg italic leading-relaxed">${constitutionData.preamble.text}</p>
+                </div>
+                <div class="mt-8">
+                    <h5 class="text-xl font-bold mb-4">About the Preamble</h5>
+                    <p class="mb-4">
+                        The Preamble to the Constitution of India is a brief introductory statement that sets out the guiding purpose, principles and philosophy of the Constitution. It embodies the fundamental values and the philosophy on which the Constitution is based.
+                    </p>
+                    <div class="highlight-box">
+                        <h6 class="font-bold mb-2">Key Elements of the Preamble:</h6>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Sovereign</strong> - India is free from external control</li>
+                            <li><strong>Socialist</strong> - Wealth is shared equally by society</li>
+                            <li><strong>Secular</strong> - All religions are equal before the state</li>
+                            <li><strong>Democratic</strong> - Government is elected by the people</li>
+                            <li><strong>Republic</strong> - Head of state is elected, not hereditary</li>
+                        </ul>
+                    </div>
+                    <p>
+                        The Preamble declares India to be a Sovereign, Socialist, Secular, Democratic Republic. It secures justice, liberty, equality to all citizens of India and promotes fraternity amongst the people.
+                    </p>
+                </div>
+            `;
+            contentArea.scrollTop = 0;
+        }
+
+        // Show Parts
+        function showParts() {
+            currentView = 'parts';
+            contentTitle.textContent = "Parts of the Constitution";
+            updateActiveNav('Part');
+            navButtons.classList.remove('hidden');
+            backBtn.classList.remove('hidden');
+            
+            let html = `
+                <p class="mb-6">
+                    The Constitution of India is divided into 25 Parts that group related articles dealing with specific subjects. Each Part covers a distinct aspect of governance, rights, and administration.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            `;
+            
+            constitutionData.parts.forEach((part, index) => {
+                html += `
+                    <div class="card card-hover p-4 cursor-pointer" 
+                         onclick="showPart('${part.part_number}', ${index})">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="text-lg font-bold">${part.part_number}</h4>
+                            <span class="text-xs bg-saffron bg-opacity-10 text-saffron px-2 py-1 rounded">
+                                ${part.articles.length} Articles
+                            </span>
+                        </div>
+                        <h5 class="font-medium mb-2">${part.title}</h5>
+                        <p class="text-sm text-text-secondary">Click to view all articles in this part</p>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            contentArea.innerHTML = html;
+            contentArea.scrollTop = 0;
+        }
+
+        // Show a specific part
+        function showPart(partNumber, index = null) {
+            currentView = 'part';
+            const part = constitutionData.parts.find(p => p.part_number === partNumber);
+            if (index !== null) {
+                currentPartIndex = index;
+            } else {
+                currentPartIndex = constitutionData.parts.findIndex(p => p.part_number === partNumber);
+            }
+            
+            contentTitle.textContent = `${part.part_number}: ${part.title}`;
+            updateActiveNav('Part');
+            navButtons.classList.remove('hidden');
+            backBtn.classList.remove('hidden');
+            
+            let html = `
+                <div class="mb-6">
+                    <h4 class="text-xl font-bold mb-2">${part.part_number}: ${part.title}</h4>
+                    <p class="text-text-secondary">This part contains ${part.articles.length} articles.</p>
+                </div>
+                <div class="grid grid-cols-1 gap-4">
+            `;
+            
+            part.articles.forEach(article => {
+                html += `
+                    <div class="card card-hover p-4 cursor-pointer" 
+                         onclick="showArticle('${part.part_number}', '${article.article_number}')">
+                        <div class="flex justify-between items-start mb-2">
+                            <h5 class="text-lg font-medium">${article.article_number}</h5>
+                            <button class="text-saffron hover:text-saffron-dark">
+                                <i class="fas fa-bookmark"></i>
+                            </button>
+                        </div>
+                        <h6 class="font-semibold mb-2">${article.title}</h6>
+                        <p class="text-sm text-text-secondary">${article.text.substring(0, 150)}...</p>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            contentArea.innerHTML = html;
+            contentArea.scrollTop = 0;
+        }
+
+        // Show Articles
+        function showArticles() {
+            currentView = 'articles';
+            contentTitle.textContent = "All Articles";
+            updateActiveNav('Article');
+            navButtons.classList.remove('hidden');
+            backBtn.classList.remove('hidden');
+            
+            let html = `
+                <p class="mb-4">
+                    The Constitution of India originally had 395 articles in 22 parts. Currently, it has 470 articles in 25 parts. Below you can browse all articles or use the filter to find specific ones.
+                </p>
+                <div class="mb-4">
+                    <input type="text" id="articleFilter" placeholder="Filter articles by number or title..." 
+                           class="w-full p-2 border border-border rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-saffron">
+                </div>
+                <div class="grid grid-cols-1 gap-3" id="articlesList">
+            `;
+            
+            let articleIndex = 0;
+            constitutionData.parts.forEach(part => {
+                part.articles.forEach(article => {
+                    html += `
+                        <div class="card card-hover p-3 cursor-pointer article-item" 
+                             data-part="${part.part_number}" data-article="${article.article_number}" data-index="${articleIndex}"
+                             onclick="showArticle('${part.part_number}', '${article.article_number}', ${articleIndex})">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h5 class="font-medium">${article.article_number}</h5>
+                                    <h6 class="text-sm font-semibold">${article.title}</h6>
+                                    <p class="text-xs text-text-secondary mt-1">${part.part_number}</p>
+                                </div>
+                                <button class="text-saffron hover:text-saffron-dark">
+                                    <i class="fas fa-bookmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    articleIndex++;
+                });
+            });
+            
+            html += `</div>`;
+            contentArea.innerHTML = html;
+            
+            // Add filter functionality
+            const articleFilter = document.getElementById('articleFilter');
+            articleFilter.addEventListener('input', (e) => {
+                const filter = e.target.value.toLowerCase();
+                const articles = document.querySelectorAll('.article-item');
+                
+                articles.forEach(article => {
+                    const articleNumber = article.getAttribute('data-article').toLowerCase();
+                    const articleTitle = article.querySelector('h6').textContent.toLowerCase();
+                    const partNumber = article.getAttribute('data-part').toLowerCase();
+                    
+                    if (articleNumber.includes(filter) || articleTitle.includes(filter) || partNumber.includes(filter)) {
+                        article.style.display = 'block';
+                    } else {
+                        article.style.display = 'none';
+                    }
+                });
+            });
+            
+            contentArea.scrollTop = 0;
+        }
+
+        // Show a specific article
+        function showArticle(partNumber, articleNumber, index = null) {
+            currentView = 'article';
+            const part = constitutionData.parts.find(p => p.part_number === partNumber);
+            const article = part.articles.find(a => a.article_number === articleNumber);
+            
+            if (index !== null) {
+                currentArticleIndex = index;
+            } else {
+                // Calculate the global article index
+                currentArticleIndex = getArticleStartIndex(part);
+                for (let i = 0; i < part.articles.length; i++) {
+                    if (part.articles[i].article_number === articleNumber) {
+                        currentArticleIndex += i;
+                        break;
+                    }
+                }
+            }
+            
+            contentTitle.textContent = `${article.article_number}: ${article.title}`;
+            updateActiveNav('Article');
+            navButtons.classList.remove('hidden');
+            backBtn.classList.remove('hidden');
+            contentArea.innerHTML = `
+                <div class="mb-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="text-xl font-bold">${article.article_number}: ${article.title}</h4>
+                        <span class="text-sm bg-saffron bg-opacity-10 text-saffron px-2 py-1 rounded">${part.part_number}</span>
+                    </div>
+                    <p>${article.text}</p>
+                </div>
+            `;
+            contentArea.scrollTop = 0;
+        }
+
+        // Show Schedules
+        function showSchedules() {
+            currentView = 'schedules';
+            contentTitle.textContent = "Schedules of the Constitution";
+            updateActiveNav('Schedule');
+            navButtons.classList.remove('hidden');
+            backBtn.classList.remove('hidden');
+            
+            let html = `
+                <p class="mb-6">
+                    The Constitution of India has 12 Schedules that provide additional details, lists, and procedural matters that are too detailed for the main body of the Constitution.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            `;
+            
+            constitutionData.schedules.forEach((schedule, index) => {
+                html += `
+                    <div class="card card-hover p-4 cursor-pointer" 
+                         onclick="showSchedule('${schedule.schedule_number}', ${index})">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="text-lg font-bold">${schedule.schedule_number}</h4>
+                            <span class="text-xs bg-purple-500 bg-opacity-10 text-purple-500 px-2 py-1 rounded">Schedule</span>
+                        </div>
+                        <h5 class="font-medium mb-2">${schedule.title}</h5>
+                        <p class="text-sm text-text-secondary">${schedule.text.substring(0, 100)}...</p>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            contentArea.innerHTML = html;
+            contentArea.scrollTop = 0;
+        }
+
+        // Show a specific schedule
+        function showSchedule(scheduleNumber, index = null) {
+            currentView = 'schedule';
+            const schedule = constitutionData.schedules.find(s => s.schedule_number === scheduleNumber);
+            if (index !== null) {
+                currentScheduleIndex = index;
+            } else {
+                currentScheduleIndex = constitutionData.schedules.findIndex(s => s.schedule_number === scheduleNumber);
+            }
+            
+            contentTitle.textContent = `${schedule.schedule_number}: ${schedule.title}`;
+            updateActiveNav('Schedule');
+            navButtons.classList.remove('hidden');
+            backBtn.classList.remove('hidden');
+            contentArea.innerHTML = `
+                <div class="p-4 bg-purple-500 bg-opacity-5 rounded-lg">
+                    <h4 class="text-xl font-bold mb-2">${schedule.schedule_number}: ${schedule.title}</h4>
+                    <p>${schedule.text}</p>
+                </div>
+            `;
+            contentArea.scrollTop = 0;
+        }
+
+        // Show Amendments
+        function showAmendments() {
+            currentView = 'amendments';
+            contentTitle.textContent = "Constitutional Amendments";
+            updateActiveNav('Amendment');
+            navButtons.classList.remove('hidden');
+            backBtn.classList.remove('hidden');
+            
+            let html = `
+                <p class="mb-6">
+                    The Constitution of India has been amended 106 times since its adoption in 1950. Amendments are changes to the Constitution that are passed by the Parliament following the procedure laid down in Article 368.
+                </p>
+                <div class="grid grid-cols-1 gap-4">
+            `;
+            
+            constitutionData.amendments.forEach((amendment, index) => {
+                html += `
+                    <div class="card card-hover p-4 cursor-pointer" 
+                         onclick="showAmendment('${amendment.amendment_number}', ${index})">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="text-lg font-bold">${amendment.amendment_number}</h4>
+                            <span class="text-xs bg-red-500 bg-opacity-10 text-red-500 px-2 py-1 rounded">Amendment</span>
+                        </div>
+                        <h5 class="font-medium mb-2">${amendment.title}</h5>
+                        <p class="text-sm text-text-secondary">${amendment.text.substring(0, 150)}...</p>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            contentArea.innerHTML = html;
+            contentArea.scrollTop = 0;
+        }
+
+        // Show a specific amendment
+        function showAmendment(amendmentNumber, index = null) {
+            currentView = 'amendment';
+            const amendment = constitutionData.amendments.find(a => a.amendment_number === amendmentNumber);
+            if (index !== null) {
+                currentAmendmentIndex = index;
+            } else {
+                currentAmendmentIndex = constitutionData.amendments.findIndex(a => a.amendment_number === amendmentNumber);
+            }
+            
+            contentTitle.textContent = `${amendment.amendment_number}: ${amendment.title}`;
+            updateActiveNav('Amendment');
+            navButtons.classList.remove('hidden');
+            backBtn.classList.remove('hidden');
+            contentArea.innerHTML = `
+                <div class="p-4 bg-red-500 bg-opacity-5 rounded-lg">
+                    <h4 class="text-xl font-bold mb-2">${amendment.amendment_number}: ${amendment.title}</h4>
+                    <p>${amendment.text}</p>
+                </div>
+            `;
+            contentArea.scrollTop = 0;
+        }
+
+        // Show History
+        function showHistory() {
+            currentView = 'history';
+            contentTitle.textContent = "Constitutional History";
+            updateActiveNav('History');
+            navButtons.classList.add('hidden');
+            backBtn.classList.remove('hidden');
+            
+            let html = `
+                <div class="mb-6">
+                    <h4 class="text-xl font-bold mb-4">History of the Indian Constitution</h4>
+                    <p class="mb-4">
+                        The Constitution of India is the supreme law of India. The document lays down the framework that demarcates fundamental political code, structure, procedures, powers, and duties of government institutions and sets out fundamental rights, directive principles, and the duties of citizens.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <h5 class="text-lg font-bold mb-4">Timeline of Key Events</h5>
+                        <div class="timeline">
+            `;
+            
+            constitutionData.history.timeline.forEach(item => {
+                html += `
+                    <div class="timeline-item">
+                        <div class="timeline-date">${item.date}</div>
+                        <div class="timeline-content">${item.event}</div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h5 class="text-lg font-bold mb-4">Interesting Facts</h5>
+                        <div class="space-y-4">
+            `;
+            
+            constitutionData.history.facts.forEach(fact => {
+                html += `
+                    <div class="quote-box">
+                        <p>${fact}</p>
+                    </div>
+                `;
+            });
+            
+            html += `
+                        </div>
+                        
+                        <div class="mt-6">
+                            <h5 class="text-lg font-bold mb-4">Key Figures</h5>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            `;
+            
+            constitutionData.history.leaders.forEach(leader => {
+                html += `
+                    <div class="card p-4">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-xs font-bold text-blue-800">
+                                <!-- Placeholder for leader image -->
+                                <div class="w-full h-full rounded-full bg-gray-300 flex items-center justify-center">
+                                    <i class="fas fa-user text-gray-600"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h6 class="font-bold">${leader.name}</h6>
+                                <p class="text-sm text-saffron">${leader.role}</p>
+                                <p class="text-xs mt-1">${leader.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            contentArea.innerHTML = html;
+            contentArea.scrollTop = 0;
+        }
+
+        // Text-to-Speech functionality
+        speechBtn.addEventListener('click', () => {
+            const content = contentArea.innerText;
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(content);
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                window.speechSynthesis.speak(utterance);
+                
+                // Change icon when speaking
+                speechBtn.innerHTML = '<i class="fas fa-stop text-red-500"></i>';
+                
+                // Change back when done
+                utterance.onend = () => {
+                    speechBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                };
+            } else {
+                alert('Text-to-speech is not supported in your browser.');
+            }
+        });
+
+        // Print functionality
+        printBtn.addEventListener('click', () => {
+            window.print();
+        });
+
+        // Share functionality
+        shareBtn.addEventListener('click', () => {
+            if (navigator.share) {
+                navigator.share({
+                    title: contentTitle.textContent,
+                    text: 'Check out this section of the Indian Constitution',
+                    url: window.location.href
+                })
+                .catch(error => console.log('Error sharing:', error));
+            } else {
+                // Fallback for browsers that don't support the Web Share API
+                alert('Share feature not supported in your browser. You can copy the URL manually.');
+            }
+        });
+
+        // Bookmark functionality
+        bookmarkBtn.addEventListener('click', () => {
+            const currentTitle = contentTitle.textContent;
+            const currentContent = contentArea.innerHTML;
+            
+            // In a real app, this would save to localStorage
+            alert(`"${currentTitle}" has been bookmarked!`);
+            
+            // Visual feedback
+            bookmarkBtn.innerHTML = '<i class="fas fa-bookmark text-yellow-500"></i>';
+            setTimeout(() => {
+                bookmarkBtn.innerHTML = '<i class="fas fa-bookmark"></i>';
+            }, 1000);
+        });
+
+        // Initialize with Home view
+        goHome();
+    </script>
+</body>
+</html>
